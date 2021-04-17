@@ -3,30 +3,27 @@ name: Deploy Graph Manual
 on:
   workflow_dispatch:
     inputs:
-      network:
-        description: 'Network to build for (mainnet, mumbai)'
-        required: true
-        default: 'mumbai'
+      # network:
+      #   description: 'Network to build for (mainnet, matic)'
+      #   required: true
+      #   default: 'mainnet'
       subgraph:
         description: 'Name of the subgraph'
         required: true
         default: 'subgraph-template'
-      account:
-        description: 'Name of the subgraph account or org name'
-        required: true
       branch:
         description: 'Branch to build (development, staging, master or another)'
         required: true
-        default: 'development'
+        default: 'master'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      GRAPH_SUBGRAPH_ACCOUNT: ${{ github.event.inputs.account }}
+      GRAPH_SUBGRAPH_ACCOUNT: ${{ github.repository_owner }}
       GRAPH_SUBGRAPH_NAME: ${{ github.event.inputs.subgraph }}
       GRAPH_CONFIG_FILE: subgraph.yaml
-      NETWORK: ${{ github.event.inputs.network }}
+      NETWORK: mainnet # ${{ github.event.inputs.network }}
     steps:
       - uses: actions/checkout@v2
       - name: Install node
